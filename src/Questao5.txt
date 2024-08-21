@@ -1,0 +1,29 @@
+Context API é uma solução do React para evitar o "props drilling", que é o processo de passar props de um componente pai para vários componentes filhos, muitas vezes desnecessários. Com Context API, podemos criar um contexto no nível superior da árvore de componentes e permitir que qualquer componente na árvore acesse os dados, sem precisar passar props por todos os níveis intermediários.
+
+Exemplo de uso de Context API:
+
+Suponha que temos um tema de aplicação (dark ou light) que precisa ser acessado por múltiplos componentes. Sem Context API, teríamos que passar essa informação de um componente pai para todos os filhos, o que pode ser repetitivo e causar o "props drilling".
+
+Exemplo
+
+```javascript
+// ThemeContext.js
+import React, { createContext, useState } from 'react';
+
+// Cria um Contexto com um valor padrão
+export const ThemeContext = createContext();
+
+// Cria um Provider para encapsular os componentes filhos que usarão o contexto
+export const ThemeProvider = ({ children }) => {
+  const [theme, setTheme] = useState('light');
+
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
